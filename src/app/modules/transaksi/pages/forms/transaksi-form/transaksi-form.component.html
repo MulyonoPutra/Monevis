@@ -1,0 +1,74 @@
+<div class="p-6 flex justify-center items-center">
+  <div class="card w-96 bg-base-100 shadow-xl">
+    <div class="card-body">
+      <form [formGroup]="form">
+        <div class="py-2">
+          <input
+            formControlName="anggaran"
+            type="text"
+            placeholder="Anggaran"
+            class="input input-bordered w-full max-w-xs"
+          />
+        </div>
+        <div class="py-2">
+          <input
+            formControlName="real"
+            type="text"
+            placeholder="Real"
+            class="input input-bordered w-full max-w-xs"
+          />
+        </div>
+        <div class="py-2">
+          <input
+            formControlName="keterangan"
+            type="text"
+            placeholder="Keterangan"
+            class="input input-bordered w-full max-w-xs"
+          />
+        </div>
+        <div class="py-2">
+          <select
+            class="select select-bordered w-full max-w-xs"
+            formControlName="bulanId"
+          >
+            <option disabled selected value="">Pilih Bulan</option>
+            <option *ngFor="let option of bulan" [value]="option.id">
+              {{ option.namaBulan }}
+            </option>
+          </select>
+        </div>
+        <div class="py-2">
+          <select
+            class="select select-bordered w-full max-w-xs"
+            formControlName="daftarUnitId"
+          >
+            <option disabled selected value="">Pilih Unit</option>
+            <option *ngFor="let option of units" [value]="option.id">
+              {{ option.namaUnit }}
+            </option>
+          </select>
+        </div>
+        <div class="flex space-x-4 mt-4">
+          <div>
+            <div class="card-actions justify-end">
+              <button class="btn" type="button" (click)="goBack()">
+                Cancel
+              </button>
+            </div>
+          </div>
+          <div>
+            <div class="card-actions justify-end">
+              <button
+                class="btn btn-neutral"
+                type="button"
+                (click)="onSubmit()"
+              >
+                {{ label }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

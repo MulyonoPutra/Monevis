@@ -1,0 +1,50 @@
+<div class="p-6">
+  <button class="btn btn-neutral" (click)="navigate()">Create</button>
+  <div class="card w-full bg-base-100 shadow-xl">
+    <div class="card-body">
+      <div class="overflow-x-auto">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Anggaran</th>
+              <th>Real</th>
+              <th>Keterangan</th>
+              <th>Bulan</th>
+              <th>Kode Unit</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of transaksi; track $index) {
+            <tr>
+              <td>{{ item.id }}</td>
+              <td>{{ item.anggaran }}</td>
+              <td>{{ item.real }}</td>
+              <td>{{ item.keterangan }}</td>
+              <td>{{ item.bulan.namaBulan }}</td>
+              <td>{{ item.daftarUnit.kodeUnit }}</td>
+              <td class="flex space-x-4">
+                <button (click)="onUpdate(item?.id)">
+                  <img
+                    src="../../../../assets/icons/edit.svg"
+                    alt="Edit"
+                    class="py-4"
+                  />
+                </button>
+                <button (click)="onRemove(item?.id)">
+                  <img
+                    src="../../../../assets/icons/delete.svg"
+                    alt="Delete"
+                    class="py-4"
+                  />
+                </button>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

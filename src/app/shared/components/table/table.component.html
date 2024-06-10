@@ -1,0 +1,23 @@
+<div class="overflow-x-auto">
+  <table class="table table-zebra">
+    <thead>
+      <tr>
+        <th class="capitalize" *ngFor="let column of columns">{{ column | appSeparateCapitalWords }}</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of data; let i = index">
+        <td *ngFor="let column of columns">{{ row[column] }}</td>
+        <td class="flex space-x-4">
+          <button (click)="onUpdate(row['id'])">
+            <img src="../../../../assets/icons/edit.svg" alt="Edit" class="py-4">
+          </button>
+          <button (click)="onRemove(row['id'])">
+            <img src="../../../../assets/icons/delete.svg" alt="Delete" class="py-4">
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

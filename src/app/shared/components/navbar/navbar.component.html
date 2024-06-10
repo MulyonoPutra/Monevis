@@ -1,0 +1,65 @@
+<div class="navbar bg-base-100">
+  <div class="flex-1">
+    <div class="drawer-content">
+      <label for="my-drawer">
+        <a class="btn btn-ghost text-xl">Monevis</a>
+      </label>
+    </div>
+  </div>
+  <div class="flex-none">
+    <ul class="menu menu-horizontal px-1">
+      <li><a routerLink="transaksi">Transaksi</a></li>
+      <li>
+        <details>
+          <summary>Master</summary>
+          <ul class="p-2 bg-base-100 rounded-t-none">
+            <li><a routerLink="master/bulan">Bulan</a></li>
+            <li><a routerLink="master/unit">Unit</a></li>
+          </ul>
+        </details>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="drawer">
+  <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+  <div class="drawer-side z-50">
+    <label
+      for="my-drawer"
+      aria-label="close sidebar"
+      class="drawer-overlay"
+    ></label>
+    <ul class="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+      <a class="btn btn-ghost text-xl">Monevis</a>
+      <ng-container *ngFor="let item of menuItems">
+        <li *ngIf="!item.children">
+          <a [routerLink]="item.route">
+            <img [src]="item.icon" alt="{{ item.title }} icon" class="icon" />
+            {{ item.title }}
+          </a>
+        </li>
+        <li *ngIf="item.children">
+          <details>
+            <summary>
+              <img [src]="item.icon" alt="{{ item.title }} icon" class="icon" />
+              {{ item.title }}
+            </summary>
+            <ul>
+              <li *ngFor="let child of item.children">
+                <a [routerLink]="child.route">
+                  <img
+                    [src]="child.icon"
+                    alt="{{ child.title }} icon"
+                    class="icon"
+                  />
+                  {{ child.title }}
+                </a>
+              </li>
+            </ul>
+          </details>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+</div>

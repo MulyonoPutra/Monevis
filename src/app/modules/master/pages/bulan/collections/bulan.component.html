@@ -1,0 +1,8 @@
+<div class="p-6">
+  <button class="btn btn-neutral" (click)="navigate()">Create</button>
+  <div class="card w-full bg-base-100 shadow-xl">
+    <div class="card-body">
+       <app-table [columns]="columns" [data]="bulan" (delete)="onRemove($event)" (update)="onUpdate($event)"></app-table>
+    </div>
+  </div>
+</div>
