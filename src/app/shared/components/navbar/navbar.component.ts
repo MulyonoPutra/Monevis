@@ -1,7 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Component } from '@angular/core';
+import { MessageService } from 'primeng/api';
+import { StorageService } from '../../services/storage.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
 	selector: 'app-navbar',
@@ -9,8 +12,15 @@ import { RouterModule } from '@angular/router';
 	imports: [CommonModule, RouterModule],
 	templateUrl: './navbar.component.html',
 	styleUrls: ['./navbar.component.scss'],
+	providers: [ToastService, MessageService],
 })
 export class NavbarComponent {
+	constructor(
+		private readonly storageService: StorageService,
+		private readonly router: Router,
+		private readonly messageService: MessageService,
+		private readonly toastService: ToastService,
+	) {}
 	menuItems = [
 		{
 			title: 'Transaksi',
@@ -45,4 +55,18 @@ export class NavbarComponent {
 			],
 		},
 	];
+
+	logout() {
+		this.storageService.clear();
+		this.router.navigate(['auth/login']);
+	}
+
+	show(): void {
+		this.messageService.add({
+			severity: 'success',
+			summary: 'Heading',
+			detail: '<strong>Message Content</strong>',
+		});
+		this.toastService.showSuccess('Success!', 'Successfully!');
+	}
 }

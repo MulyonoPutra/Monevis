@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, type OnInit } from '@angular/core';
+import { Component, OnDestroy, type OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Unit } from '../../../../../../core/models/unit';
 import { MasterService } from '../../../../../../core/services/master.service';
 import { TableComponent } from '../../../../../../shared/components/table/table.component';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
 	selector: 'app-daftar-unit-collections',
@@ -14,9 +15,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 	styleUrls: ['./daftar-unit-collections.component.scss'],
 	providers: [MasterService],
 })
-export class DaftarUnitCollectionsComponent implements OnInit {
-	units!: Unit[];
+export class DaftarUnitCollectionsComponent implements OnInit, OnDestroy {
+	private destroyed = new Subject();
 	columns = ['id', 'kodeUnit', 'namaUnit', 'akroUnit', 'alamat', 'telepon'];
+	units!: Unit[];
 
 	constructor(
 		private readonly router: Router,
@@ -28,11 +30,14 @@ export class DaftarUnitCollectionsComponent implements OnInit {
 	}
 
 	findAll(): void {
-		this.masterService.findAll().subscribe({
-			next: (response) => {
-				this.units = response.data;
-			},
-		});
+		this.masterService
+			.findAll()
+			.pipe(takeUntil(this.destroyed))
+			.subscribe({
+				next: (response) => {
+					this.units = response.data;
+				},
+			});
 	}
 
 	navigate(): void {
@@ -44,14 +49,22 @@ export class DaftarUnitCollectionsComponent implements OnInit {
 	}
 
 	onRemove(id: number): void {
-		this.masterService.remove(id).subscribe({
-			next: () => {},
-			error: (error: HttpErrorResponse) => {
-				console.log(error);
-			},
-			complete: () => {
-				window.location.reload();
-			},
-		});
+		this.masterService
+			.remove(id)
+			.pipe(takeUntil(this.destroyed))
+			.subscribe({
+				next: () => {},
+				error: (error: HttpErrorResponse) => {
+					console.log(error);
+				},
+				complete: () => {
+					window.location.reload();
+				},
+			});
+	}
+
+	ngOnDestroy() {
+		this.destroyed.next(true);
+		this.destroyed.complete();
 	}
 }

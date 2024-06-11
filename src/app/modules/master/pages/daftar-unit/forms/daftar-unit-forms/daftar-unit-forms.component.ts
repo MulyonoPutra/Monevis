@@ -1,5 +1,5 @@
 import { CommonModule, Location } from '@angular/common';
-import { Component, type OnInit } from '@angular/core';
+import { Component, OnDestroy, type OnInit } from '@angular/core';
 import {
 	AbstractControl,
 	FormBuilder,
@@ -10,7 +10,7 @@ import {
 	Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { timer, take } from 'rxjs';
+import { timer, take, Subject, takeUntil } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MasterService } from '../../../../../../core/services/master.service';
 import { FormFieldComponent } from '../../../../../../shared/components/form-field/form-field.component';
@@ -18,12 +18,13 @@ import { FormFieldComponent } from '../../../../../../shared/components/form-fie
 @Component({
 	selector: 'app-daftar-unit-forms',
 	standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, FormFieldComponent],
+	imports: [CommonModule, FormsModule, ReactiveFormsModule, FormFieldComponent],
 	templateUrl: './daftar-unit-forms.component.html',
 	styleUrls: ['./daftar-unit-forms.component.scss'],
 	providers: [MasterService],
 })
-export class DaftarUnitFormsComponent implements OnInit {
+export class DaftarUnitFormsComponent implements OnInit, OnDestroy {
+	private destroyed = new Subject();
 	label!: string;
 	routeId!: number;
 	form!: FormGroup;
@@ -62,15 +63,18 @@ export class DaftarUnitFormsComponent implements OnInit {
 	}
 
 	findOne(): void {
-		this.masterService.findById(this.routeId).subscribe({
-			next: (response: any) => {
-				this.prepopulateForm(response.data);
-			},
-			error: (error: HttpErrorResponse) => {
-				console.error(error);
-			},
-			complete: () => {},
-		});
+		this.masterService
+			.findById(this.routeId)
+			.pipe(takeUntil(this.destroyed))
+			.subscribe({
+				next: (response: any) => {
+					this.prepopulateForm(response.data);
+				},
+				error: (error: HttpErrorResponse) => {
+					console.error(error);
+				},
+				complete: () => {},
+			});
 	}
 
 	prepopulateForm(data: any): void {
@@ -106,27 +110,33 @@ export class DaftarUnitFormsComponent implements OnInit {
 	}
 
 	onCreate(): void {
-		this.masterService.create(this.formCtrlValue).subscribe({
-			next: () => {},
-			error: (error: HttpErrorResponse) => {
-				console.error(error);
-			},
-			complete: () => {
-				this.navigateAfterSucceed();
-			},
-		});
+		this.masterService
+			.create(this.formCtrlValue)
+			.pipe(takeUntil(this.destroyed))
+			.subscribe({
+				next: () => {},
+				error: (error: HttpErrorResponse) => {
+					console.error(error);
+				},
+				complete: () => {
+					this.navigateAfterSucceed();
+				},
+			});
 	}
 
 	onUpdate(): void {
-		this.masterService.update(this.routeId, this.formCtrlValue).subscribe({
-			next: () => {},
-			error: (error: HttpErrorResponse) => {
-				console.error(error);
-			},
-			complete: () => {
-				this.navigateAfterSucceed();
-			},
-		});
+		this.masterService
+			.update(this.routeId, this.formCtrlValue)
+			.pipe(takeUntil(this.destroyed))
+			.subscribe({
+				next: () => {},
+				error: (error: HttpErrorResponse) => {
+					console.error(error);
+				},
+				complete: () => {
+					this.navigateAfterSucceed();
+				},
+			});
 	}
 
 	navigateAfterSucceed(): void {
@@ -139,5 +149,10 @@ export class DaftarUnitFormsComponent implements OnInit {
 
 	goBack(): void {
 		this.location.back();
+	}
+
+	ngOnDestroy() {
+		this.destroyed.next(true);
+		this.destroyed.complete();
 	}
 }

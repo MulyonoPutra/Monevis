@@ -5,6 +5,7 @@ import { UserService } from '../../../../../core/services/user.service';
 import { User } from '../../../../../core/models/user';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
 	selector: 'app-user-collections',
@@ -16,6 +17,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class UserCollectionsComponent implements OnInit {
 	user!: User[];
+  private destroyed = new Subject();
 
 	constructor(
 		private readonly router: Router,
@@ -27,7 +29,7 @@ export class UserCollectionsComponent implements OnInit {
 	}
 
 	findAll(): void {
-		this.userService.findAll().subscribe({
+    this.userService.findAll().pipe(takeUntil(this.destroyed)).subscribe({
 			next: (response) => {
 				this.user = response.data;
 			},
@@ -43,7 +45,7 @@ export class UserCollectionsComponent implements OnInit {
 	}
 
 	onRemove(id: any): void {
-		this.userService.remove(id).subscribe({
+    this.userService.remove(id).pipe(takeUntil(this.destroyed)).subscribe({
 			next: () => {},
 			error: (error: HttpErrorResponse) => {
 				console.log(error);
@@ -53,4 +55,9 @@ export class UserCollectionsComponent implements OnInit {
 			},
 		});
 	}
+
+  ngOnDestroy() {
+    this.destroyed.next(true);
+    this.destroyed.complete();
+  }
 }

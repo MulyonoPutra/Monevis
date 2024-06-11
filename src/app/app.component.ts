@@ -12,22 +12,38 @@ import { take, timer } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { MessageService } from 'primeng/api';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { SpinnerComponent } from './shared/components/spinner/spinner.component';
+import { ToastComponent } from './shared/components/toast/toast.component';
+import { ToastModule } from 'primeng/toast';
+import { ToastService } from './shared/services/toast.service';
 
 @Component({
 	selector: 'app-root',
 	standalone: true,
-	imports: [CommonModule, RouterOutlet, HttpClientModule, NavbarComponent, SpinnerComponent],
+	imports: [
+		CommonModule,
+		RouterOutlet,
+		HttpClientModule,
+		ToastModule,
+		NavbarComponent,
+		SpinnerComponent,
+		ToastComponent,
+	],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
+	providers: [MessageService, ToastService],
 })
 export class AppComponent {
 	title = 'monevis';
 
 	loadingIndicator!: boolean;
 
-	constructor(private router: Router) {
+	constructor(
+		private router: Router,
+		private toastService: ToastService,
+	) {
 		this.showSpinner();
 	}
 

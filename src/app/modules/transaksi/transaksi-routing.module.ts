@@ -1,5 +1,6 @@
 import { RouterModule, Routes } from '@angular/router';
 
+import { AuthenticationGuard } from '../../core/guards/authentication.guard';
 import { NgModule } from '@angular/core';
 import { TransaksiCollectionsComponent } from './pages/collections/transaksi-collections/transaksi-collections.component';
 import { TransaksiFormComponent } from './pages/forms/transaksi-form/transaksi-form.component';

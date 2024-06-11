@@ -1,5 +1,5 @@
 import { CommonModule, Location } from '@angular/common';
-import { Component, type OnInit } from '@angular/core';
+import { Component, OnDestroy, type OnInit } from '@angular/core';
 import { MasterService } from '../../../../../core/services/master.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
@@ -12,7 +12,7 @@ import {
 	ReactiveFormsModule,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { timer, take } from 'rxjs';
+import { timer, take, Subject, takeUntil } from 'rxjs';
 import { FormFieldComponent } from '../../../../../shared/components/form-field/form-field.component';
 
 @Component({
@@ -23,7 +23,8 @@ import { FormFieldComponent } from '../../../../../shared/components/form-field/
 	styleUrls: ['./bulan-forms.component.scss'],
 	providers: [MasterService],
 })
-export class BulanFormsComponent implements OnInit {
+export class BulanFormsComponent implements OnInit, OnDestroy {
+	private destroyed = new Subject();
 	label!: string;
 	routeId!: number;
 	form!: FormGroup;
@@ -57,15 +58,18 @@ export class BulanFormsComponent implements OnInit {
 	}
 
 	findOne(): void {
-		this.masterService.findBulanById(this.routeId).subscribe({
-			next: (response: any) => {
-				this.prepopulateForm(response.data);
-			},
-			error: (error: HttpErrorResponse) => {
-				console.error(error);
-			},
-			complete: () => {},
-		});
+		this.masterService
+			.findBulanById(this.routeId)
+			.pipe(takeUntil(this.destroyed))
+			.subscribe({
+				next: (response: any) => {
+					this.prepopulateForm(response.data);
+				},
+				error: (error: HttpErrorResponse) => {
+					console.error(error);
+				},
+				complete: () => {},
+			});
 	}
 
 	prepopulateForm(data: any): void {
@@ -91,27 +95,33 @@ export class BulanFormsComponent implements OnInit {
 	}
 
 	onCreate(): void {
-		this.masterService.createBulan(this.formCtrlValue).subscribe({
-			next: () => {},
-			error: (error: HttpErrorResponse) => {
-				console.error(error);
-			},
-			complete: () => {
-				this.navigateAfterSucceed();
-			},
-		});
+		this.masterService
+			.createBulan(this.formCtrlValue)
+			.pipe(takeUntil(this.destroyed))
+			.subscribe({
+				next: () => {},
+				error: (error: HttpErrorResponse) => {
+					console.error(error);
+				},
+				complete: () => {
+					this.navigateAfterSucceed();
+				},
+			});
 	}
 
 	onUpdate(): void {
-		this.masterService.updateBulan(this.routeId, this.formCtrlValue).subscribe({
-			next: () => {},
-			error: (error: HttpErrorResponse) => {
-				console.error(error);
-			},
-			complete: () => {
-				this.navigateAfterSucceed();
-			},
-		});
+		this.masterService
+			.updateBulan(this.routeId, this.formCtrlValue)
+			.pipe(takeUntil(this.destroyed))
+			.subscribe({
+				next: () => {},
+				error: (error: HttpErrorResponse) => {
+					console.error(error);
+				},
+				complete: () => {
+					this.navigateAfterSucceed();
+				},
+			});
 	}
 
 	navigateAfterSucceed(): void {
@@ -124,5 +134,10 @@ export class BulanFormsComponent implements OnInit {
 
 	goBack(): void {
 		this.location.back();
+	}
+
+	ngOnDestroy() {
+		this.destroyed.next(true);
+		this.destroyed.complete();
 	}
 }

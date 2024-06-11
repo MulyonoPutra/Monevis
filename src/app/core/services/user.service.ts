@@ -13,20 +13,20 @@ export class UserService {
 
 	constructor(private readonly http: HttpClient) {}
 
-  findAll(): Observable<HttpResponseEntity<User[]>> {
-    return this.http.get<HttpResponseEntity<User[]>>(`${this.env}/user`);
+	findAll(): Observable<HttpResponseEntity<User[]>> {
+		return this.http.get<HttpResponseEntity<User[]>>(`${this.env}/user`);
 	}
 
-  create(body: CreateUserDto): Observable<HttpResponseEntity<User>> {
-    return this.http.post<HttpResponseEntity<User>>(`${this.env}/user`, body);
+	create(body: CreateUserDto): Observable<HttpResponseEntity<User>> {
+		return this.http.post<HttpResponseEntity<User>>(`${this.env}/user`, body);
 	}
 
-  update(id: number, body: any): Observable<HttpResponseEntity<User>> {
-    return this.http.patch<HttpResponseEntity<User>>(`${this.env}/user/${id}`, body);
+	update(id: number, body: any): Observable<HttpResponseEntity<User>> {
+		return this.http.patch<HttpResponseEntity<User>>(`${this.env}/user/${id}`, body);
 	}
 
-  remove(id: number): Observable<HttpResponseEntity<User>> {
-    return this.http.delete<HttpResponseEntity<User>>(`${this.env}/user/${id}`);
+	remove(id: number): Observable<HttpResponseEntity<User>> {
+		return this.http.delete<HttpResponseEntity<User>>(`${this.env}/user/${id}`);
 	}
 
 	findById(id: number): Observable<HttpResponseEntity<User>> {

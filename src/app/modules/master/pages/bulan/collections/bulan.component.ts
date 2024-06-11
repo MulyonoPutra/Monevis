@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, type OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, type OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MasterService } from '../../../../../core/services/master.service';
 import { Bulan } from '../../../../../core/models/bulan';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
 	selector: 'app-bulan',
@@ -14,7 +15,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 	styleUrls: ['./bulan.component.scss'],
 	providers: [MasterService],
 })
-export class BulanComponent implements OnInit {
+export class BulanComponent implements OnInit, OnDestroy {
+	private destroyed = new Subject();
+
 	bulan!: Bulan[];
 	columns = ['id', 'namaBulan'];
 
@@ -28,11 +31,14 @@ export class BulanComponent implements OnInit {
 	}
 
 	findAll(): void {
-		this.masterService.findAllBulan().subscribe({
-			next: (response) => {
-				this.bulan = response.data;
-			},
-		});
+		this.masterService
+			.findAllBulan()
+			.pipe(takeUntil(this.destroyed))
+			.subscribe({
+				next: (response) => {
+					this.bulan = response.data;
+				},
+			});
 	}
 
 	navigate(): void {
@@ -44,14 +50,22 @@ export class BulanComponent implements OnInit {
 	}
 
 	onRemove(id: number): void {
-		this.masterService.removeBulan(id).subscribe({
-			next: () => {},
-			error: (error: HttpErrorResponse) => {
-				console.log(error);
-			},
-			complete: () => {
-				window.location.reload();
-			},
-		});
+		this.masterService
+			.removeBulan(id)
+			.pipe(takeUntil(this.destroyed))
+			.subscribe({
+				next: () => {},
+				error: (error: HttpErrorResponse) => {
+					console.log(error);
+				},
+				complete: () => {
+					window.location.reload();
+				},
+			});
+	}
+
+	ngOnDestroy() {
+		this.destroyed.next(true);
+		this.destroyed.complete();
 	}
 }

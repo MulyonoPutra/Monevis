@@ -21,7 +21,7 @@ import { FormFieldComponent } from '../../../../../shared/components/form-field/
 @Component({
 	selector: 'app-transaksi-form',
 	standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, FormFieldComponent],
+	imports: [CommonModule, FormsModule, ReactiveFormsModule, FormFieldComponent],
 	templateUrl: './transaksi-form.component.html',
 	styleUrls: ['./transaksi-form.component.scss'],
 	providers: [TransaksiService, MasterService],
@@ -72,8 +72,8 @@ export class TransaksiFormComponent implements OnInit {
 
 	get formCtrlValue(): CreateTransaksiDto {
 		return {
-      anggaran: Number(this.form.get('anggaran')?.value),
-      real: Number(this.form.get('real')?.value),
+			anggaran: Number(this.form.get('anggaran')?.value),
+			real: Number(this.form.get('real')?.value),
 			keterangan: this.form.get('keterangan')?.value,
 			bulanId: Number(this.form.get('bulanId')?.value),
 			daftarUnitId: Number(this.form.get('daftarUnitId')?.value),
@@ -92,7 +92,7 @@ export class TransaksiFormComponent implements OnInit {
 		});
 	}
 
-  prepopulateForm(data: any): void {
+	prepopulateForm(data: any): void {
 		this.form.patchValue({
 			anggaran: data.anggaran,
 			real: data.real,
