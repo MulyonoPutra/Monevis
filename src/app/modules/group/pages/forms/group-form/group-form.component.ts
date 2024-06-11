@@ -1,132 +1,133 @@
 import { CommonModule, Location } from '@angular/common';
 import { ChangeDetectionStrategy, Component, type OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+	AbstractControl,
+	FormBuilder,
+	FormControl,
+	FormGroup,
+	FormsModule,
+	ReactiveFormsModule,
+	Validators,
+} from '@angular/forms';
 import { GroupService } from '../../../../../core/services/group.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { timer, take } from 'rxjs';
 
 @Component({
-  selector: 'app-group-form',
-  standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule
-  ],
-  templateUrl: './group-form.component.html',
-  styleUrls: ['./group-form.component.scss'],
-  providers: [GroupService]
+	selector: 'app-group-form',
+	standalone: true,
+	imports: [CommonModule, FormsModule, ReactiveFormsModule],
+	templateUrl: './group-form.component.html',
+	styleUrls: ['./group-form.component.scss'],
+	providers: [GroupService],
 })
 export class GroupFormComponent implements OnInit {
+	form!: FormGroup;
+	label!: string;
+	routeId!: number;
 
-  form!: FormGroup;
-  label!: string;
-  routeId!: number;
+	constructor(
+		private readonly fb: FormBuilder,
+		private readonly router: Router,
+		private readonly route: ActivatedRoute,
+		private readonly groupService: GroupService,
+		private readonly location: Location,
+	) {
+		this.routeId = +this.route.snapshot.paramMap.get('id')!;
+	}
 
-  constructor(
-    private readonly fb: FormBuilder,
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-    private readonly groupService: GroupService,
-    private readonly location: Location,
-  ) {
-    this.routeId = +this.route.snapshot.paramMap.get('id')!;
-  }
+	ngOnInit(): void {
+		this.formInitialized();
+		this.initPageFromRouteId();
+	}
 
-  ngOnInit(): void {
-    this.formInitialized();
-    this.initPageFromRouteId();
-  }
+	formInitialized(): void {
+		this.form = this.fb.group({
+			namaGroup: ['', Validators.required],
+			kodeGroup: ['', Validators.required],
+			keterangan: ['', Validators.required],
+		});
+	}
 
-  formInitialized(): void {
-    this.form = this.fb.group({
-      namaGroup: ['', Validators.required],
-      kodeGroup: ['', Validators.required],
-      keterangan: ['', Validators.required],
-    });
-  }
+	initPageFromRouteId(): void {
+		this.label = this.routeId ? 'Update' : 'Save';
+		if (this.routeId) {
+			this.findOne();
+		}
+	}
 
-  initPageFromRouteId(): void {
-    this.label = this.routeId ? 'Update' : 'Save';
-    if (this.routeId) {
-      this.findOne();
-    }
-  }
+	findOne(): void {
+		this.groupService.findById(this.routeId).subscribe({
+			next: (response: any) => {
+				this.prepopulateForm(response.data);
+			},
+			error: (error: HttpErrorResponse) => {
+				console.error(error);
+			},
+			complete: () => {},
+		});
+	}
 
-  findOne(): void {
-    this.groupService.findById(this.routeId).subscribe({
-      next: (response: any) => {
-        console.log(response.data);
-        this.prepopulateForm(response.data);
-      },
-      error: (error: HttpErrorResponse) => {
-        console.error(error);
-      },
-      complete: () => { },
-    });
-  }
+	prepopulateForm(data: any): void {
+		this.form.patchValue({
+			namaGroup: data.namaGroup,
+			kodeGroup: data.kodeGroup,
+			keterangan: data.keterangan,
+		});
+	}
 
-  prepopulateForm(data: any): void {
-    this.form.patchValue({
-      namaGroup: data.namaGroup,
-      kodeGroup: data.kodeGroup,
-      keterangan: data.keterangan,
-    });
-  }
+	get formCtrlValue() {
+		return {
+			namaGroup: this.form.get('namaGroup')?.value,
+			kodeGroup: this.form.get('kodeGroup')?.value,
+			keterangan: this.form.get('keterangan')?.value,
+		};
+	}
 
-  get formCtrlValue() {
-    return {
-      namaGroup: this.form.get('namaGroup')?.value,
-      kodeGroup: this.form.get('kodeGroup')?.value,
-      keterangan: this.form.get('keterangan')?.value,
-    };
-  }
+	getFormControl(form: string): FormControl | AbstractControl {
+		return this.form.get(form) as FormControl;
+	}
 
-  getFormControl(form: string): FormControl | AbstractControl {
-    return this.form.get(form) as FormControl;
-  }
+	onSubmit(): void {
+		if (this.form.valid) {
+			this.routeId ? this.onUpdate() : this.onCreate();
+		}
+	}
 
-  onSubmit(): void {
-    if (this.form.valid) {
-      this.routeId ? this.onUpdate() : this.onCreate();
-    }
-  }
+	onUpdate(): void {
+		this.groupService.update(this.routeId, this.formCtrlValue).subscribe({
+			next: () => {},
+			error: (error: HttpErrorResponse) => {
+				console.error(error);
+			},
+			complete: () => {
+				this.navigateAfterSucceed();
+			},
+		});
+	}
 
-  onUpdate(): void {
-    this.groupService.update(this.routeId, this.formCtrlValue).subscribe({
-      next: () => { },
-      error: (error: HttpErrorResponse) => {
-        console.error(error);
-      },
-      complete: () => {
-        this.navigateAfterSucceed();
-      }
-    })
-  }
+	onCreate(): void {
+		this.groupService.create(this.formCtrlValue).subscribe({
+			next: () => {},
+			error: (error: HttpErrorResponse) => {
+				console.error(error);
+			},
+			complete: () => {
+				this.navigateAfterSucceed();
+			},
+		});
+	}
 
-  onCreate(): void {
-    this.groupService.create(this.formCtrlValue).subscribe({
-      next: () => { },
-      error: (error: HttpErrorResponse) => {
-        console.error(error);
-      },
-      complete: () => {
-        this.navigateAfterSucceed();
-      }
-    })
-  }
+	navigateAfterSucceed(): void {
+		timer(3000)
+			.pipe(take(1))
+			.subscribe(() => {
+				this.router.navigateByUrl('/group');
+			});
+	}
 
-  navigateAfterSucceed(): void {
-    timer(3000)
-      .pipe(take(1))
-      .subscribe(() => {
-        this.router.navigateByUrl('/group');
-      });
-  }
-
-  goBack(): void {
-    this.location.back();
-  }
-
+	goBack(): void {
+		this.location.back();
+	}
 }

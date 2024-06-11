@@ -4,11 +4,7 @@ import { MasterRoutingModule } from './master-routing.module';
 import { NgModule } from '@angular/core';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    MasterRoutingModule,
-    HttpClientModule,
-  ]
+	declarations: [],
+	imports: [CommonModule, MasterRoutingModule, HttpClientModule],
 })
-export class MasterModule { }
+export class MasterModule {}

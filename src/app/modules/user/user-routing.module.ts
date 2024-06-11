@@ -5,18 +5,22 @@ import { UserCollectionsComponent } from './pages/collections/user-collections/u
 import { UserFormComponent } from './pages/forms/user-form/user-form.component';
 
 const routes: Routes = [
-  {
-    path: 'form',
-    component: UserFormComponent,
-  },
-  {
-    path: '',
-    component: UserCollectionsComponent,
-  },
+	{
+		path: 'form',
+		component: UserFormComponent,
+	},
+	{
+		path: 'update/:id',
+		component: UserFormComponent,
+	},
+	{
+		path: '',
+		component: UserCollectionsComponent,
+	},
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+	imports: [RouterModule.forChild(routes)],
+	exports: [RouterModule],
 })
-export class UserRoutingModule { }
+export class UserRoutingModule {}

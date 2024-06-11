@@ -5,22 +5,22 @@ import { GroupFormComponent } from './pages/forms/group-form/group-form.componen
 import { NgModule } from '@angular/core';
 
 const routes: Routes = [
-  {
-    path: 'form',
-    component: GroupFormComponent,
-  },
-  {
-    path: 'update/:id',
-    component: GroupFormComponent,
-  },
-  {
-    path: '',
-    component: GroupCollectionsComponent,
-  },
+	{
+		path: 'form',
+		component: GroupFormComponent,
+	},
+	{
+		path: 'update/:id',
+		component: GroupFormComponent,
+	},
+	{
+		path: '',
+		component: GroupCollectionsComponent,
+	},
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+	imports: [RouterModule.forChild(routes)],
+	exports: [RouterModule],
 })
-export class GroupRoutingModule { }
+export class GroupRoutingModule {}

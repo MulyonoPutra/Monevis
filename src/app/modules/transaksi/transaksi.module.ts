@@ -4,11 +4,7 @@ import { NgModule } from '@angular/core';
 import { TransaksiRoutingModule } from './transaksi-routing.module';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    TransaksiRoutingModule,
-    HttpClientModule,
-  ]
+	declarations: [],
+	imports: [CommonModule, TransaksiRoutingModule, HttpClientModule],
 })
-export class TransaksiModule { }
+export class TransaksiModule {}

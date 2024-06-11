@@ -5,22 +5,22 @@ import { TransaksiCollectionsComponent } from './pages/collections/transaksi-col
 import { TransaksiFormComponent } from './pages/forms/transaksi-form/transaksi-form.component';
 
 const routes: Routes = [
-  {
-    path: 'form',
-    component: TransaksiFormComponent,
-  },
-  {
-    path: 'update/:id',
-    component: TransaksiFormComponent,
-  },
-  {
-    path: '',
-    component: TransaksiCollectionsComponent,
-  },
+	{
+		path: 'form',
+		component: TransaksiFormComponent,
+	},
+	{
+		path: 'update/:id',
+		component: TransaksiFormComponent,
+	},
+	{
+		path: '',
+		component: TransaksiCollectionsComponent,
+	},
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+	imports: [RouterModule.forChild(routes)],
+	exports: [RouterModule],
 })
-export class TransaksiRoutingModule { }
+export class TransaksiRoutingModule {}

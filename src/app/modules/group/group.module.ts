@@ -4,11 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    GroupRoutingModule,
-    HttpClientModule,
-  ]
+	declarations: [],
+	imports: [CommonModule, GroupRoutingModule, HttpClientModule],
 })
-export class GroupModule { }
+export class GroupModule {}

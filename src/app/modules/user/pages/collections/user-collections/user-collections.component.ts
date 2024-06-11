@@ -4,49 +4,53 @@ import { Router } from '@angular/router';
 import { UserService } from '../../../../../core/services/user.service';
 import { User } from '../../../../../core/models/user';
 import { TableComponent } from '../../../../../shared/components/table/table.component';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-user-collections',
-  standalone: true,
-  imports: [
-    CommonModule, TableComponent
-  ],
-  templateUrl: './user-collections.component.html',
-  styleUrls: ['./user-collections.component.scss'],
-  providers: [UserService]
+	selector: 'app-user-collections',
+	standalone: true,
+	imports: [CommonModule, TableComponent],
+	templateUrl: './user-collections.component.html',
+	styleUrls: ['./user-collections.component.scss'],
+	providers: [UserService],
 })
 export class UserCollectionsComponent implements OnInit {
+	user!: User[];
 
-  user!: User[]
+	constructor(
+		private readonly router: Router,
+		private readonly userService: UserService,
+	) {}
 
-  constructor(
-    private readonly router: Router,
-    private readonly userService: UserService
-  ) {
+	ngOnInit(): void {
+		this.findAll();
+	}
 
-  }
+	findAll(): void {
+		this.userService.findAll().subscribe({
+			next: (response) => {
+				this.user = response.data;
+			},
+		});
+	}
 
-  ngOnInit(): void {
-    this.findAll();
-  }
+	navigate(): void {
+		this.router.navigate(['/user/form']);
+	}
 
-  findAll(): void {
-    this.userService.findAll().subscribe({
-      next: (response) => {
-        this.user = response.data;
-      }
-    })
-  }
+	onUpdate(id: any): void {
+		this.router.navigateByUrl(`/user/update/${id}`);
+	}
 
-  navigate(): void {
-    this.router.navigate(['/master/bulan-form']);
-  }
-
-  onUpdate(event: any): void {
-    console.log('update : ' + event)
-  }
-
-  onRemove(event: any): void {
-    console.log('remove : ' + event)
-  }
+	onRemove(id: any): void {
+		this.userService.remove(id).subscribe({
+			next: () => {},
+			error: (error: HttpErrorResponse) => {
+				console.log(error);
+			},
+			complete: () => {
+				window.location.reload();
+			},
+		});
+	}
 }

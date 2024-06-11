@@ -20,9 +20,26 @@
       <div class="py-2">
         <input formControlName="telepon" type="text" placeholder="Telepon" class="input input-bordered w-full max-w-xs" />
       </div>
-      <div class="card-actions justify-end">
-        <button class="btn btn-neutral" type="button" (click)="onSubmit()">Save</button>
-      </div>
+              <div class="flex space-x-4 mt-4">
+          <div>
+            <div class="card-actions justify-end">
+              <button class="btn" type="button" (click)="goBack()">
+                Cancel
+              </button>
+            </div>
+          </div>
+          <div>
+            <div class="card-actions justify-end">
+              <button
+                class="btn btn-neutral"
+                type="button"
+                (click)="onSubmit()"
+              >
+                {{label}}
+              </button>
+            </div>
+          </div>
+        </div>
       </form>
     </div>
   </div>
