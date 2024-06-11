@@ -1,36 +1,18 @@
 <div class="p-6 flex justify-center items-center">
-  <div class="card w-96 bg-base-100 shadow-xl">
+  <div class="card w-1/2 bg-base-100 shadow-xl">
     <div class="card-body">
       <form [formGroup]="form">
         <div class="py-2">
-          <input
-            formControlName="nama"
-            type="text"
-            placeholder="Nama"
-            class="input input-bordered w-full max-w-xs"
-          />
+          <input formControlName="nama" type="text" placeholder="Nama" class="input input-bordered w-full" />
         </div>
         <div class="py-2">
-          <input
-            formControlName="email"
-            type="text"
-            placeholder="Email"
-            class="input input-bordered w-full max-w-xs"
-          />
+          <input formControlName="email" type="text" placeholder="Email" class="input input-bordered w-full" />
         </div>
         <div class="py-2">
-          <input
-            formControlName="password"
-            type="text"
-            placeholder="Password"
-            class="input input-bordered w-full max-w-xs"
-          />
+          <input formControlName="password" type="text" placeholder="Password" class="input input-bordered w-full" />
         </div>
-                <div class="py-2">
-          <select
-            class="select select-bordered w-full max-w-xs"
-            formControlName="groupId"
-          >
+        <div class="py-2">
+          <select class="select select-bordered w-full" formControlName="groupId">
             <option disabled selected value="">Pilih Unit</option>
             <option *ngFor="let option of group" [value]="option.id">
               {{ option.namaGroup }}
@@ -47,11 +29,7 @@
           </div>
           <div>
             <div class="card-actions justify-end">
-              <button
-                class="btn btn-neutral"
-                type="button"
-                (click)="onSubmit()"
-              >
+              <button class="btn btn-neutral" type="button" (click)="onSubmit()">
                 {{label}}
               </button>
             </div>

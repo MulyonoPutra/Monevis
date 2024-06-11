@@ -15,6 +15,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { timer, take } from 'rxjs';
 import { GroupService } from '../../../../../core/services/group.service';
 import { Group } from '../../../../../core/models/group';
+import { CreateUserDto } from '../../../../../core/models/dto/create-user.dto';
+import { User } from '../../../../../core/models/user';
 
 @Component({
 	selector: 'app-user-form',
@@ -83,7 +85,7 @@ export class UserFormComponent implements OnInit {
 		});
 	}
 
-	prepopulateForm(data: any): void {
+	prepopulateForm(data: User): void {
 		this.form.patchValue({
 			nama: data.nama,
 			password: data.password,
@@ -92,7 +94,7 @@ export class UserFormComponent implements OnInit {
 		});
 	}
 
-	get formCtrlValue() {
+	get formCtrlValue(): CreateUserDto {
 		return {
 			nama: this.form.get('nama')?.value,
 			password: this.form.get('password')?.value,

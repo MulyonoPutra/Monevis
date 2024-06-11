@@ -17,6 +17,7 @@ import {
 } from '@angular/forms';
 import { timer, take } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CreateTransaksiDto } from '../../../../../core/models/dto/create-transaksi.dto';
 
 @Component({
 	selector: 'app-transaksi-form',
@@ -70,7 +71,7 @@ export class TransaksiFormComponent implements OnInit {
 		}
 	}
 
-	get formCtrlValue() {
+	get formCtrlValue(): CreateTransaksiDto {
 		return {
 			anggaran: this.form.get('anggaran')?.value,
 			real: this.form.get('real')?.value,
@@ -92,7 +93,7 @@ export class TransaksiFormComponent implements OnInit {
 		});
 	}
 
-	prepopulateForm(data: any): void {
+  prepopulateForm(data: Transaksi): void {
 		this.form.patchValue({
 			anggaran: data.anggaran,
 			real: data.real,
@@ -100,10 +101,6 @@ export class TransaksiFormComponent implements OnInit {
 			bulanId: data.bulan.id,
 			daftarUnitId: data.daftarUnit.id,
 		});
-	}
-
-	getFormControl(form: string): FormControl | AbstractControl {
-		return this.form.get(form) as FormControl;
 	}
 
 	findAllBulan(): void {

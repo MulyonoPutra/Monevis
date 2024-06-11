@@ -17,16 +17,16 @@ export class GroupService {
 		return this.http.get<HttpResponseEntity<Group[]>>(`${this.env}/group`);
 	}
 
-	create(body: CreateGroupDto): Observable<any> {
-		return this.http.post(`${this.env}/group`, body);
+  create(body: CreateGroupDto): Observable<HttpResponseEntity<Group>> {
+    return this.http.post<HttpResponseEntity<Group>>(`${this.env}/group`, body);
 	}
 
-	update(id: number, body: any): Observable<any> {
-		return this.http.patch(`${this.env}/group/${id}`, body);
+  update(id: number, body: any): Observable<HttpResponseEntity<Group>> {
+    return this.http.patch<HttpResponseEntity<Group>>(`${this.env}/group/${id}`, body);
 	}
 
-	remove(id: number): Observable<any> {
-		return this.http.delete(`${this.env}/group/${id}`);
+  remove(id: number): Observable<HttpResponseEntity<Group>> {
+    return this.http.delete<HttpResponseEntity<Group>>(`${this.env}/group/${id}`);
 	}
 
 	findById(id: number): Observable<HttpResponseEntity<Group>> {

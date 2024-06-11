@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { GroupService } from '../../../../../core/services/group.service';
 import { Group } from '../../../../../core/models/group';
 import { HttpErrorResponse } from '@angular/common/http';
+import { HttpResponseEntity } from '../../../../../core/models/http-response-entity';
 
 @Component({
 	selector: 'app-group-collections',
@@ -15,8 +16,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 	providers: [GroupService],
 })
 export class GroupCollectionsComponent implements OnInit {
-	group!: Group[];
 
+	group!: Group[];
 	columns = ['id', 'namaGroup', 'kodeGroup', 'keterangan'];
 
 	constructor(
@@ -30,7 +31,7 @@ export class GroupCollectionsComponent implements OnInit {
 
 	findAll(): void {
 		this.groupService.findAll().subscribe({
-			next: (response) => {
+			next: (response: HttpResponseEntity<Group[]>) => {
 				this.group = response.data;
 			},
 		});
