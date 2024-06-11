@@ -1,7 +1,9 @@
 import { HomeComponent } from './modules/home/home.component';
+import { PageNotFound404Component } from './core/components/page-not-found-404/page-not-found-404.component';
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
+  { path: '', redirectTo: '/transaksi', pathMatch: 'full' },
 	{
 		path: '',
 		component: HomeComponent,
@@ -30,9 +32,12 @@ export const routes: Routes = [
 			},
 		],
 	},
-
 	{
 		path: 'auth',
 		loadChildren: () => import('../app/modules/auth/auth.module').then((m) => m.AuthModule),
 	},
+  {
+    path: '**', pathMatch: 'full',
+    component: PageNotFound404Component
+  },
 ];
