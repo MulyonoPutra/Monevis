@@ -3,8 +3,8 @@ import { Unit } from './unit';
 
 export interface Transaksi {
 	id?: number;
-	anggaran: string;
-	real: string;
+  anggaran: number;
+  real: number;
 	keterangan: string;
 	bulan: Bulan;
 	daftarUnit: Unit;

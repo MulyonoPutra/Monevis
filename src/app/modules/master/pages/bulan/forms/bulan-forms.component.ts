@@ -13,11 +13,12 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { timer, take } from 'rxjs';
+import { FormFieldComponent } from '../../../../../shared/components/form-field/form-field.component';
 
 @Component({
 	selector: 'app-bulan-forms',
 	standalone: true,
-	imports: [CommonModule, FormsModule, ReactiveFormsModule],
+	imports: [CommonModule, FormsModule, ReactiveFormsModule, FormFieldComponent],
 	templateUrl: './bulan-forms.component.html',
 	styleUrls: ['./bulan-forms.component.scss'],
 	providers: [MasterService],

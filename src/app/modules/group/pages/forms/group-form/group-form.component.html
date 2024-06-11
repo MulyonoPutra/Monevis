@@ -2,30 +2,9 @@
   <div class="card w-1/2 bg-base-100 shadow-xl">
     <div class="card-body">
       <form [formGroup]="form">
-        <div class="py-2">
-          <input
-            formControlName="namaGroup"
-            type="text"
-            placeholder="Nama Group"
-            class="input input-bordered w-full"
-          />
-        </div>
-        <div class="py-2">
-          <input
-            formControlName="kodeGroup"
-            type="text"
-            placeholder="Kode Group"
-            class="input input-bordered w-full"
-          />
-        </div>
-        <div class="py-2">
-          <input
-            formControlName="keterangan"
-            type="text"
-            placeholder="Keterangan"
-            class="input input-bordered w-full"
-          />
-        </div>
+        <app-form-field [formGroup]="form" [label]="'Nama Group'" fieldName="namaGroup" />
+        <app-form-field [formGroup]="form" [label]="'Kode Group'" fieldName="kodeGroup" />
+        <app-form-field [formGroup]="form" [label]="'Keterangan'" fieldName="keterangan" />
         <div class="flex space-x-4 mt-4">
           <div>
             <div class="card-actions justify-end">

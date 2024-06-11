@@ -7,9 +7,7 @@ import { Bulan } from '../../../../../core/models/bulan';
 import { Transaksi } from '../../../../../core/models/transaksi';
 import { Unit } from '../../../../../core/models/unit';
 import {
-	AbstractControl,
 	FormBuilder,
-	FormControl,
 	FormGroup,
 	FormsModule,
 	ReactiveFormsModule,
@@ -18,11 +16,12 @@ import {
 import { timer, take } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CreateTransaksiDto } from '../../../../../core/models/dto/create-transaksi.dto';
+import { FormFieldComponent } from '../../../../../shared/components/form-field/form-field.component';
 
 @Component({
 	selector: 'app-transaksi-form',
 	standalone: true,
-	imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, FormFieldComponent],
 	templateUrl: './transaksi-form.component.html',
 	styleUrls: ['./transaksi-form.component.scss'],
 	providers: [TransaksiService, MasterService],
@@ -73,8 +72,8 @@ export class TransaksiFormComponent implements OnInit {
 
 	get formCtrlValue(): CreateTransaksiDto {
 		return {
-			anggaran: this.form.get('anggaran')?.value,
-			real: this.form.get('real')?.value,
+      anggaran: Number(this.form.get('anggaran')?.value),
+      real: Number(this.form.get('real')?.value),
 			keterangan: this.form.get('keterangan')?.value,
 			bulanId: Number(this.form.get('bulanId')?.value),
 			daftarUnitId: Number(this.form.get('daftarUnitId')?.value),
@@ -93,7 +92,7 @@ export class TransaksiFormComponent implements OnInit {
 		});
 	}
 
-  prepopulateForm(data: Transaksi): void {
+  prepopulateForm(data: any): void {
 		this.form.patchValue({
 			anggaran: data.anggaran,
 			real: data.real,

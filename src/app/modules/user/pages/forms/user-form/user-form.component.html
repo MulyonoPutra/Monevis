@@ -2,18 +2,12 @@
   <div class="card w-1/2 bg-base-100 shadow-xl">
     <div class="card-body">
       <form [formGroup]="form">
-        <div class="py-2">
-          <input formControlName="nama" type="text" placeholder="Nama" class="input input-bordered w-full" />
-        </div>
-        <div class="py-2">
-          <input formControlName="email" type="text" placeholder="Email" class="input input-bordered w-full" />
-        </div>
-        <div class="py-2">
-          <input formControlName="password" type="text" placeholder="Password" class="input input-bordered w-full" />
-        </div>
+        <app-form-field [formGroup]="form" [label]="'Nama'" fieldName="nama" />
+        <app-form-field [formGroup]="form" [label]="'Email'" fieldName="email" />
+        <app-form-field [formGroup]="form" [label]="'Password'" fieldName="password" />
         <div class="py-2">
           <select class="select select-bordered w-full" formControlName="groupId">
-            <option disabled selected value="">Pilih Unit</option>
+            <option disabled selected value="">Pilih Group</option>
             <option *ngFor="let option of group" [value]="option.id">
               {{ option.namaGroup }}
             </option>

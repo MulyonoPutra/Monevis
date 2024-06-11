@@ -17,11 +17,12 @@ import { GroupService } from '../../../../../core/services/group.service';
 import { Group } from '../../../../../core/models/group';
 import { CreateUserDto } from '../../../../../core/models/dto/create-user.dto';
 import { User } from '../../../../../core/models/user';
+import { FormFieldComponent } from '../../../../../shared/components/form-field/form-field.component';
 
 @Component({
 	selector: 'app-user-form',
 	standalone: true,
-	imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, FormFieldComponent],
 	templateUrl: './user-form.component.html',
 	styleUrls: ['./user-form.component.scss'],
 	providers: [UserService, GroupService],
@@ -53,7 +54,7 @@ export class UserFormComponent implements OnInit {
 		this.form = this.fb.group({
 			nama: ['', Validators.required],
 			password: ['', Validators.required],
-			email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
 			groupId: ['', Validators.required],
 		});
 	}

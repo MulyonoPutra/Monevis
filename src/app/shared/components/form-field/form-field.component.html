@@ -1,0 +1,18 @@
+<div class="relative py-3" [formGroup]="formGroup">
+  <div class="p-float-label">
+    <input
+      pInputText
+      [id]="fieldName"
+      [name]="fieldName"
+      type="text"
+      class="input input-bordered w-full"
+      [class.input-error]="isInvalid"
+      [style]="{'width':'100%'}"
+      placeholder="{{label}}"
+      [ngClass]="classFilled"
+      [formControlName]="fieldName" />
+  </div>
+  @if (isInvalid) {
+  <div class="errors-message">{{ errorMessage }}</div>
+  }
+</div>

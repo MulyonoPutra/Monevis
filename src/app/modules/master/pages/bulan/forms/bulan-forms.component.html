@@ -2,14 +2,7 @@
   <div class="card w-1/2 bg-base-100 shadow-xl">
     <div class="card-body">
       <form [formGroup]="form">
-        <div class="py-2">
-          <input
-            formControlName="namaBulan"
-            type="text"
-            placeholder="Nama Bulan"
-            class="input input-bordered w-full"
-          />
-        </div>
+        <app-form-field [formGroup]="form" [label]="'Nama Bulan'" fieldName="namaBulan" />
         <div class="flex space-x-4 mt-4">
           <div>
             <div class="card-actions justify-end">

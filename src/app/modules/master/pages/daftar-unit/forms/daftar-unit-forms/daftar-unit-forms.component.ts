@@ -13,11 +13,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { timer, take } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MasterService } from '../../../../../../core/services/master.service';
+import { FormFieldComponent } from '../../../../../../shared/components/form-field/form-field.component';
 
 @Component({
 	selector: 'app-daftar-unit-forms',
 	standalone: true,
-	imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, FormFieldComponent],
 	templateUrl: './daftar-unit-forms.component.html',
 	styleUrls: ['./daftar-unit-forms.component.scss'],
 	providers: [MasterService],

@@ -13,11 +13,12 @@ import { GroupService } from '../../../../../core/services/group.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { timer, take } from 'rxjs';
+import { FormFieldComponent } from '../../../../../shared/components/form-field/form-field.component';
 
 @Component({
 	selector: 'app-group-form',
 	standalone: true,
-	imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, FormFieldComponent],
 	templateUrl: './group-form.component.html',
 	styleUrls: ['./group-form.component.scss'],
 	providers: [GroupService],

@@ -2,30 +2,9 @@
   <div class="card w-1/2 bg-base-100 shadow-xl">
     <div class="card-body">
       <form [formGroup]="form">
-        <div class="py-2">
-          <input
-            formControlName="anggaran"
-            type="text"
-            placeholder="Anggaran"
-            class="input input-bordered w-full"
-          />
-        </div>
-        <div class="py-2">
-          <input
-            formControlName="real"
-            type="text"
-            placeholder="Real"
-            class="input input-bordered w-full"
-          />
-        </div>
-        <div class="py-2">
-          <input
-            formControlName="keterangan"
-            type="text"
-            placeholder="Keterangan"
-            class="input input-bordered w-full"
-          />
-        </div>
+        <app-form-field [formGroup]="form" [label]="'Anggaran'" fieldName="anggaran" />
+        <app-form-field [formGroup]="form" [label]="'Real'" fieldName="real" />
+        <app-form-field [formGroup]="form" [label]="'Keterangan'" fieldName="keterangan" />
         <div class="py-2">
           <select
             class="select select-bordered w-full"
